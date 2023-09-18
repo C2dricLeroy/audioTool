@@ -1,8 +1,17 @@
 package org.example.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Playlist {
+
+    public Playlist(String nom) {
+        this.name = nom;
+        songs = new ArrayList<>();
+    }
+
     public String name;
-    public Song[] songs;
+    public List<Song> songs;
 
 
     public void setName(String name) {
@@ -10,7 +19,7 @@ public class Playlist {
     }
 
     public void setSongs(Song[] songs) {
-        this.songs = songs;
+
     }
 
     public Song[] getSongs() {
