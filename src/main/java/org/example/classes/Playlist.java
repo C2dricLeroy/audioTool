@@ -44,7 +44,7 @@ public class Playlist {
     }
 
     public Song getNextSong() {
-
+        return null;
     }
 
     public void getPreviousSong() {
@@ -53,5 +53,4 @@ public class Playlist {
 
     public boolean isEmpty() {
         return this.songs.isEmpty();
-    }
-}
+    }}
