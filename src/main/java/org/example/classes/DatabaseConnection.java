@@ -1,28 +1,36 @@
 package org.example.classes;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DatabaseConnection {
-    private static final String DATABASE_URL = "";
+    private static final String DATABASE_URL = "db";
     private Connection connection;
+    private static DatabaseConnection instance;
 
     public static DatabaseConnection getInstance() {
-        return new DatabaseConnection();
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
     }
 
     private DatabaseConnection() {
-
-    }
-
-    public Connection getConnection() {
-        return null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_URL);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void closeConnection() {
-
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void executeUpdate(String sql) {
