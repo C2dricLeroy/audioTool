@@ -5,7 +5,7 @@ package org.example.classes;
 public class MusicPlayer {
 
     private Playlist currentPlaylist;
-    private Audiocontrol audioControl;
+    private AudioControl audioControl;
     private boolean isPlaylistShuffle;
 
 

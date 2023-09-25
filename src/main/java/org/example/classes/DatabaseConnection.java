@@ -37,7 +37,7 @@ public class DatabaseConnection {
 
     }
 
-    public void closePreparedStatement(PreparedStatement) {
+    public void closePreparedStatement(PreparedStatement preparedStatement) {
 
     }
 

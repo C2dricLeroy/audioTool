@@ -1,6 +1,6 @@
 package org.example.classes;
 
-import jdk.jfr.internal.LogLevel;
+
 
 public class Logger {
 
