@@ -5,24 +5,24 @@ import java.util.List;
 
 public class Playlist {
 
-    public Playlist(String nom) {
-        this.name = nom;
+    public Playlist(String name) {
+        this.name = name;
         songs = new ArrayList<>();
     }
 
-    public String name;
-    public List<Song> songs;
+    private String name;
+    private List<Song> songs;
 
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setSongs(Song[] songs) {
-
+    public void removeSong(Song song) {
+        this.songs.remove(song);
     }
 
-    public Song[] getSongs() {
+    public List<Song> getSongs() {
         return songs;
     }
 
@@ -31,7 +31,27 @@ public class Playlist {
     }
 
     public void addSong(Song song) {
-        
+        this.songs.add(song);
     }
 
+
+    public void clearPlaylist() {
+        this.songs.clear();
+    }
+
+    public int getNumberOfSongs() {
+        return this.songs.size();
+    }
+
+    public Song getNextSong() {
+
+    }
+
+    public void getPreviousSong() {
+
+    }
+
+    public boolean isEmpty() {
+        return this.songs.isEmpty();
+    }
 }
