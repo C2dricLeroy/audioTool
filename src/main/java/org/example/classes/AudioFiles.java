@@ -1,4 +1,5 @@
 package org.example.classes;
 
-public class AudioFiles {
+public abstract class AudioFiles {
+
 }
