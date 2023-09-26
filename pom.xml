@@ -29,6 +29,11 @@
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.7.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-swing</artifactId>
+      <version>22-ea+9</version>
+    </dependency>
 
   </dependencies>
 </project>

@@ -1,4 +1,4 @@
-package org.example.classes;
+package org.example.classes.dbConnection;
 
 import java.sql.*;
 
