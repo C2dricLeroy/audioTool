@@ -3,7 +3,7 @@ package org.example.classes;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private static final String DATABASE_URL = "db";
+    private static final String DATABASE_URL = "jdbc:sqlite:/home/cedric/Bureau/programmation/Java/audioTool/database.audioTool.db";
     private Connection connection;
     private static DatabaseConnection instance;
 
@@ -16,9 +16,8 @@ public class DatabaseConnection {
 
     private DatabaseConnection() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_URL);
-        } catch (ClassNotFoundException | SQLException e) {
+            connection = DriverManager.getConnection(DATABASE_URL);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

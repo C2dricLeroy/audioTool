@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.classes.DatabaseConnection;
 import org.example.classes.UserInterface;
 
 
