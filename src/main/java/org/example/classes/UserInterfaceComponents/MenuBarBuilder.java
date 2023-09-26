@@ -5,10 +5,23 @@ import javax.swing.*;
 public class MenuBarBuilder extends JMenuBar {
 
     public MenuBarBuilder() {
-        JMenu menu = new JMenu("Menu");
-        JMenuItem settings = new JMenuItem("Settings");
+        JMenu files = new JMenu("Files");
+        JMenu tools = new JMenu("Tools");
+        JMenu settings = new JMenu("Settings");
 
-        menu.add(settings);
-        this.add(menu);
+        JMenuItem newSong = new JMenuItem("Add Song");
+        JMenuItem newPlaylist = new JMenuItem("Add Playlist");
+        JMenuItem quit = new JMenuItem("Quit");
+        JMenuItem modifyTheme = new JMenuItem("Modify Theme");
+
+
+        files.add(newSong);
+        files.add(newPlaylist);
+        settings.add(modifyTheme);
+        files.add(quit);
+
+        this.add(files);
+        this.add(tools);
+        this.add(settings);
     }
 }
