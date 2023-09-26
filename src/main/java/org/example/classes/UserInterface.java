@@ -14,8 +14,17 @@ public class UserInterface extends JFrame {
     public UserInterface() {
         this.setLayout(new BorderLayout());
 
+        //Pannels
         JPanel buttonPannel = new JPanel();
         buttonPannel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+        //Title
+        JLabel titleLabel = new JLabel("audioTool", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(new Color(64, 64, 64));
+        titleLabel.setOpaque(false);
+        this.add(titleLabel, BorderLayout.NORTH);
+
         //MenuBar
         MenuBarBuilder menuBarBuilder = new MenuBarBuilder();
         this.setJMenuBar(menuBarBuilder);
@@ -61,7 +70,6 @@ public class UserInterface extends JFrame {
         buttonPannel.add(pauseButton);
 
 
-
         this.add(buttonPannel, BorderLayout.SOUTH);
         this.pack();
         this.setSize(500, 600);
@@ -71,7 +79,4 @@ public class UserInterface extends JFrame {
 
 
         }
-
-
-
 }
