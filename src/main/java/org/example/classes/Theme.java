@@ -10,6 +10,14 @@ public class Theme {
     private Font textFont;
     private ImageIcon backgroundImage;
 
+    Theme(String name, Color backgroundColor, Color textColor, Font textFont, ImageIcon backgroundImage){
+        this.name = name;
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
+        this.textFont = textFont;
+        this.backgroundImage = backgroundImage;
+    }
+
     public String getName() {
         return this.name;
     }
