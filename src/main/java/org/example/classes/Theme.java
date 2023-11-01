@@ -10,7 +10,7 @@ public class Theme {
     private Font textFont;
     private ImageIcon backgroundImage;
 
-    Theme(String name, Color backgroundColor, Color textColor, Font textFont, ImageIcon backgroundImage){
+    public Theme(String name, Color backgroundColor, Color textColor, Font textFont, ImageIcon backgroundImage){
         this.name = name;
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;
@@ -26,7 +26,7 @@ public class Theme {
         return this.backgroundColor;
     }
 
-    public Color getTextcolor() {
+    public Color getTextColor() {
         return this.textColor;
     }
 
@@ -38,5 +38,24 @@ public class Theme {
         return this.backgroundImage;
     }
 
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public void setBackgroundImage(ImageIcon backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
+
+    public void setTextColor(Color textColor) {
+        this.textColor = textColor;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTextFont(Font textFont) {
+        this.textFont = textFont;
+    }
 
 }

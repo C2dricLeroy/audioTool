@@ -1,32 +1,37 @@
 package org.example.classes;
 
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.FieldKey;
+
+
+
+import org.example.classes.UserInterfaceComponents.FileChooser;
+
+import javax.swing.*;
+import java.io.File;
 import java.util.List;
 
 public class FileManager {
-    private AudioFiles audioFiles;
+    private FileChooser fileChooser;
 
-    public void searchForAudioFiles(String directoryPath) {
-
-
+    public FileManager() {
+        this.fileChooser = new FileChooser();
     }
 
-    void importAudioFiles(String filePath) {
-
+    public File getSelectedFile() {
+        fileChooser.openFileChooser();
+        return fileChooser.getSelectedFile();
     }
+    public static int getDurationOfFile(File file) {
+        try {
 
-    void removeAudioFile(String filePath) {
+            AudioFile audioFile = AudioFileIO.read(file);
 
-    }
-
-    public List<AudioFiles> getAudioFiles() {
-        return null;
-    }
-
-    private void addToAudioFiles(AudioFiles audioFile) {
-
-    }
-
-    private void removeFromAudioFiles(AudioFiles audioFile) {
-
+            return (int) audioFile.getAudioHeader().getTrackLength();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

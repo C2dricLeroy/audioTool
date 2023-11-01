@@ -1,6 +1,14 @@
 package org.example.classes;
 
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.spi.AudioFileReader;
+import java.io.File;
+import java.io.IOException;
+
+import static javax.sound.sampled.AudioSystem.getAudioInputStream;
 
 public class MusicPlayer {
 
@@ -9,7 +17,7 @@ public class MusicPlayer {
     private boolean isPlaylistShuffle;
 
 
-    public void play() {
+    public void play(File file) throws UnsupportedAudioFileException, IOException {
 
     }
 

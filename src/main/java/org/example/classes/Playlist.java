@@ -11,7 +11,7 @@ public class Playlist {
     }
 
     private String name;
-    private List<Song> songs;
+    public List<Song> songs;
 
 
     public void setName(String name) {

@@ -1,7 +1,6 @@
 package org.example.classes;
 
 public class Song {
-
     private String title;
     private String artist;
     private String album;
