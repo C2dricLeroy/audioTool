@@ -1,9 +1,7 @@
 package org.example.classes;
 
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import javax.sound.sampled.spi.AudioFileReader;
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +13,36 @@ public class MusicPlayer {
     private Playlist currentPlaylist;
     private AudioControl audioControl;
     private boolean isPlaylistShuffle;
+    private AudioInputStream audioInputStream;
+    private Clip clip;
 
 
-    public void play(File file) throws UnsupportedAudioFileException, IOException {
+    public void play(File file) throws LineUnavailableException, IOException {
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(file);
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+            throw new LineUnavailableException("Unsupported audio format");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new LineUnavailableException("Error reading the audio file");
+        }
 
+        AudioFormat format = audioInputStream.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+        if (!AudioSystem.isLineSupported(info)) {
+            throw new LineUnavailableException("Unsupported audio format");
+        }
+
+        try {
+            clip = (Clip) AudioSystem.getLine(info);
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (LineUnavailableException | IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public void pause() {
@@ -26,7 +50,9 @@ public class MusicPlayer {
     }
 
     public void stop() {
-
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
     }
 
     public void next() {
@@ -37,9 +63,6 @@ public class MusicPlayer {
 
     }
 
-    public void addToPlaylist(Song song) {
-
-    }
 
     public void removeFromPlaylist(Song song) {
 

@@ -3,11 +3,13 @@ package org.example.classes.UserInterfaceComponents;
 import org.example.classes.*;
 import org.example.classes.dbConnection.DatabaseConnection;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import static org.example.classes.FileManager.getDurationOfFile;
 
@@ -16,7 +18,7 @@ public class MenuBarBuilder extends JMenuBar {
     private UserInterface userInterface;
 
 
-    public MenuBarBuilder(UserInterface userInterface, FileManager fileManager) {
+    public MenuBarBuilder(UserInterface userInterface, FileManager fileManager, MusicPlayer musicPlayer) {
         this.fileManager = fileManager;
         this.userInterface = userInterface;
         JMenu files = new JMenu("Files");
@@ -38,8 +40,16 @@ public class MenuBarBuilder extends JMenuBar {
                         String title = fileName.substring(0, fileName.lastIndexOf("."));
                         int duration = getDurationOfFile(selectedFile);
                         Song newSong = new Song(title, duration, selectedFile.getPath());
+                        try {
+                            musicPlayer.play(selectedFile);
+                        } catch (LineUnavailableException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         userInterface.getPlaylist().addSong(newSong);
                         userInterface.updatePlaylistTable();
+
                     }
                 }
             }

@@ -2,6 +2,7 @@ package org.example.classes;
 
 import org.example.classes.UserInterfaceComponents.MenuBarBuilder;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,12 +12,16 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import static org.example.classes.FileManager.getDurationOfFile;
+
+
 public class UserInterface extends JFrame {
     private FileManager fileManager;
     private Playlist playlist;
     private DefaultTableModel tableModel;
     private JTable songTable;
     private JList<String> songList;
+
 
     public UserInterface() {
         playlist = new Playlist("default playlist");
@@ -37,7 +42,7 @@ public class UserInterface extends JFrame {
         this.add(titleLabel, BorderLayout.NORTH);
 
         //MenuBar
-        MenuBarBuilder menuBarBuilder = new MenuBarBuilder(this, (FileManager) fileManager);
+        MenuBarBuilder menuBarBuilder = new MenuBarBuilder(this, fileManager, musicPlayer);
         this.setJMenuBar(menuBarBuilder);
 
         MenuBar menuBar = this.getMenuBar();
@@ -57,17 +62,27 @@ public class UserInterface extends JFrame {
                 File selectedFile = fileManager.getSelectedFile();
                 if (selectedFile != null) {
                     try {
-                        System.out.println(selectedFile);
+                        String fileName = selectedFile.getName();
+                        String title = fileName.substring(0, fileName.lastIndexOf("."));
+                        int duration = getDurationOfFile(selectedFile);
+                        Song newSong = new Song(title, duration, selectedFile.getPath());
+                        playlist.addSong(newSong);
                         musicPlayer.play(selectedFile);
+
                         updatePlaylistTable();
-                    } catch (UnsupportedAudioFileException | IOException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                       System.err.println("An error occurred while reading the audio file: " + ex.getMessage());
+                    } catch (LineUnavailableException ex) {
+                        System.err.println("Line is unavailable for audio playback: " + ex.getMessage());
                     }
                 }
             }
         });
 
+
+
         // Buttons
+
         JButton playButton = new JButton("Play");
         playButton.setSize(220,50);
         playButton.addActionListener(new ActionListener() {
@@ -81,7 +96,7 @@ public class UserInterface extends JFrame {
         playButton.setAlignmentY(Component.CENTER_ALIGNMENT);
         buttonPannel.add(playButton);
 
-        JButton stopButton = new JButton("Stop");        //Buttons
+        JButton stopButton = new JButton("Stop");
         stopButton.setSize(220,50);
         stopButton.addActionListener(new ActionListener() {
             @Override
@@ -94,7 +109,7 @@ public class UserInterface extends JFrame {
         stopButton.setAlignmentY(Component.CENTER_ALIGNMENT);
         buttonPannel.add(stopButton);
 
-        JButton pauseButton = new JButton("Pause");        //Buttons
+        JButton pauseButton = new JButton("Pause");
         pauseButton.setSize(220, 50);
         pauseButton.addActionListener(new ActionListener() {
             @Override
