@@ -55,29 +55,38 @@ public class UserInterface extends JFrame {
         JScrollPane scrollPane = new JScrollPane(songList);
         this.add(scrollPane, BorderLayout.WEST);
 
-        JButton addSongButton = new JButton("Add Song");
-        addSongButton.addActionListener(new ActionListener() {
+        JPanel playlistPanel = new JPanel();
+        playlistPanel.setLayout(new BorderLayout());
+        JTextField filePathField = new JTextField(20);
+
+        JButton addFromFileButton = new JButton("Add");
+        addFromFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                File selectedFile = fileManager.getSelectedFile();
-                if (selectedFile != null) {
-                    try {
+                if ("Add".equals(e.getActionCommand())) {
+                    File selectedFile = fileManager.getSelectedFile();
+                    if (selectedFile != null) {
                         String fileName = selectedFile.getName();
                         String title = fileName.substring(0, fileName.lastIndexOf("."));
                         int duration = getDurationOfFile(selectedFile);
                         Song newSong = new Song(title, duration, selectedFile.getPath());
                         playlist.addSong(newSong);
-                        musicPlayer.play(selectedFile);
-
+                        System.out.println(playlist.songs.size());
                         updatePlaylistTable();
-                    } catch (IOException ex) {
-                       System.err.println("An error occurred while reading the audio file: " + ex.getMessage());
-                    } catch (LineUnavailableException ex) {
-                        System.err.println("Line is unavailable for audio playback: " + ex.getMessage());
+                        System.out.println(playlist.songs.size());
+                        try {
+                            musicPlayer.play(selectedFile);
+                        } catch (LineUnavailableException | IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
             }
         });
+
+        playlistPanel.add(filePathField, BorderLayout.CENTER);
+        playlistPanel.add(addFromFileButton, BorderLayout.SOUTH);
+        this.add(playlistPanel, BorderLayout.WEST);
 
 
 
@@ -102,7 +111,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if ("Stop".equals(e.getActionCommand())) {
-
+                    musicPlayer.stop();
                 }
             }
         });
