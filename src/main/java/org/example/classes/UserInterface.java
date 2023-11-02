@@ -1,11 +1,9 @@
 package org.example.classes;
 
-import org.example.classes.UserInterfaceComponents.FileChooser;
 import org.example.classes.UserInterfaceComponents.MenuBarBuilder;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,6 +16,7 @@ public class UserInterface extends JFrame {
     private Playlist playlist;
     private DefaultTableModel tableModel;
     private JTable songTable;
+    private JList<String> songList;
 
     public UserInterface() {
         playlist = new Playlist("default playlist");
@@ -44,17 +43,27 @@ public class UserInterface extends JFrame {
         MenuBar menuBar = this.getMenuBar();
 
         // Playlist
-        String[] columnNames = {"Title", "Duration"};
-        tableModel = new DefaultTableModel(columnNames, 0);
 
-        songTable = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(songTable);
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        songList = new JList<>(listModel);
+
+        JScrollPane scrollPane = new JScrollPane(songList);
+        this.add(scrollPane, BorderLayout.WEST);
 
         JButton addSongButton = new JButton("Add Song");
         addSongButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                File selectedFile = fileManager.getSelectedFile();
+                if (selectedFile != null) {
+                    try {
+                        System.out.println(selectedFile);
+                        musicPlayer.play(selectedFile);
+                        updatePlaylistTable();
+                    } catch (UnsupportedAudioFileException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
             }
         });
 
@@ -65,15 +74,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if ("Play".equals(e.getActionCommand())) {
-                    File selectedFile = fileManager.getSelectedFile();
-                    if (selectedFile != null) {
-                        try {
-                            System.out.println(selectedFile);
-                            musicPlayer.play(selectedFile);
-                        } catch (UnsupportedAudioFileException | IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
+
                 }
             }
         });
@@ -122,6 +123,15 @@ public class UserInterface extends JFrame {
                 setVisible(true);
             }
         });
+    }
+
+    public void updatePlaylistTable() {
+        DefaultListModel<String> listModel = (DefaultListModel<String>) songList.getModel();
+        listModel.clear();
+
+        for (Song song : playlist.getSongs()) {
+            listModel.addElement(song.getTitle());
+        }
     }
 
     public Playlist getPlaylist() {

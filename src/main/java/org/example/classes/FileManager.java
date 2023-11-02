@@ -2,27 +2,42 @@ package org.example.classes;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.tag.FieldKey;
 
-
-
-import org.example.classes.UserInterfaceComponents.FileChooser;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.io.File;
-import java.util.List;
 
 public class FileManager {
-    private FileChooser fileChooser;
+
 
     public FileManager() {
-        this.fileChooser = new FileChooser();
     }
 
     public File getSelectedFile() {
-        fileChooser.openFileChooser();
-        return fileChooser.getSelectedFile();
+        JFileChooser fileChooser = new JFileChooser();
+        FileFilter audioFileFilter = new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                String name = file.getName().toLowerCase();
+                return file.isDirectory() || name.endsWith(".mp3") || name.endsWith(".wav");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Fichiers audio (*.mp3, *.wav)";
+            }
+        };
+        fileChooser.setFileFilter(audioFileFilter);
+
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        } else {
+            return null;
+        }
     }
+
     public static int getDurationOfFile(File file) {
         try {
 

@@ -33,14 +33,13 @@ public class MenuBarBuilder extends JMenuBar {
             public void actionPerformed(ActionEvent e) {
                 if ("Add Song".equals(e.getActionCommand())) {
                     File selectedFile = fileManager.getSelectedFile();
-
                     if (selectedFile != null) {
                         String fileName = selectedFile.getName();
                         String title = fileName.substring(0, fileName.lastIndexOf("."));
-
                         int duration = getDurationOfFile(selectedFile);
                         Song newSong = new Song(title, duration, selectedFile.getPath());
                         userInterface.getPlaylist().addSong(newSong);
+                        userInterface.updatePlaylistTable();
                     }
                 }
             }
@@ -110,5 +109,7 @@ public class MenuBarBuilder extends JMenuBar {
 /*
         popupMenu.show(this, modifyTheme.getX(), modifyTheme.getY() + modifyTheme.getHeight());*/
     }
+
+
 
 }
