@@ -98,7 +98,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if ("Play".equals(e.getActionCommand())) {
-
+                    musicPlayer.resume();
                 }
             }
         });
@@ -124,7 +124,7 @@ public class UserInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if ("Pause".equals(e.getActionCommand())) {
-
+                    musicPlayer.pause();
                 }
             }
         });

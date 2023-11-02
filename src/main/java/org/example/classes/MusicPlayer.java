@@ -16,6 +16,8 @@ public class MusicPlayer {
     private AudioInputStream audioInputStream;
     private Clip clip;
 
+    private long currentPlaybackPosition = 0;
+
 
     public void play(File file) throws LineUnavailableException, IOException {
         try {
@@ -46,12 +48,23 @@ public class MusicPlayer {
     }
 
     public void pause() {
+        if (clip != null && clip.isRunning()) {
+            currentPlaybackPosition = clip.getMicrosecondPosition();
+            clip.stop();
+        }
+    }
 
+    public void resume() {
+        if (clip != null) {
+            clip.setMicrosecondPosition(currentPlaybackPosition);
+            clip.start();
+        }
     }
 
     public void stop() {
-        if (clip != null && clip.isRunning()) {
+        if (clip != null) {
             clip.stop();
+            currentPlaybackPosition = 0;
         }
     }
 
@@ -89,7 +102,12 @@ public class MusicPlayer {
     }
 
 
-
+    private long getMicrosecondPosition() {
+        if (clip != null) {
+            return clip.getMicrosecondPosition();
+        }
+        return 0;
+    }
 
 
 
